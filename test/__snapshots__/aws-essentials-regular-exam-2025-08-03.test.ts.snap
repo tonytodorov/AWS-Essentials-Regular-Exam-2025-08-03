@@ -1,0 +1,529 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stack Synth Matches Snapshot 1`] = `
+{
+  "Outputs": {
+    "SisiApiEndpointEAD33547": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "SisiApi3319F256",
+            },
+            ".execute-api.",
+            {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "SisiApiDeploymentStageprodB39ADFBE",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "AddObjectLambdaFunction7327A1C7": {
+      "DependsOn": [
+        "AddObjectLambdaFunctionServiceRoleDefaultPolicy290B3BCD",
+        "AddObjectLambdaFunctionServiceRoleB809B62E",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "1cab97457ff8fbf9c3110d38bbe3d27209fd5cd3db950283a887612aed69795f.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "TABLE_NAME": {
+              "Ref": "ExamTable41732A38",
+            },
+            "TOPIC_ARN": {
+              "Ref": "SisiTopic55F757BD",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AddObjectLambdaFunctionServiceRoleB809B62E",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "AddObjectLambdaFunctionServiceRoleB809B62E": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "AddObjectLambdaFunctionServiceRoleDefaultPolicy290B3BCD": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "ExamTable41732A38",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "SisiTopic55F757BD",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AddObjectLambdaFunctionServiceRoleDefaultPolicy290B3BCD",
+        "Roles": [
+          {
+            "Ref": "AddObjectLambdaFunctionServiceRoleB809B62E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DeleteObjectLambdaFunctionBAFCB383": {
+      "DependsOn": [
+        "DeleteObjectLambdaFunctionServiceRoleDefaultPolicy9A2EEE06",
+        "DeleteObjectLambdaFunctionServiceRoleFA05BEEB",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "4dadffdf71d298196faae761b8b88cad29ed081e1b652e629e03e889cc2d70e6.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "TOPIC_ARN": {
+              "Ref": "SisiTopic55F757BD",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "DeleteObjectLambdaFunctionServiceRoleFA05BEEB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DeleteObjectLambdaFunctionServiceRoleDefaultPolicy9A2EEE06": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "SisiTopic55F757BD",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DeleteObjectLambdaFunctionServiceRoleDefaultPolicy9A2EEE06",
+        "Roles": [
+          {
+            "Ref": "DeleteObjectLambdaFunctionServiceRoleFA05BEEB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DeleteObjectLambdaFunctionServiceRoleFA05BEEB": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ExamTable41732A38": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "PK",
+            "AttributeType": "S",
+          },
+          {
+            "AttributeName": "SK",
+            "AttributeType": "S",
+          },
+        ],
+        "BillingMode": "PAY_PER_REQUEST",
+        "KeySchema": [
+          {
+            "AttributeName": "PK",
+            "KeyType": "HASH",
+          },
+          {
+            "AttributeName": "SK",
+            "KeyType": "RANGE",
+          },
+        ],
+        "StreamSpecification": {
+          "StreamViewType": "NEW_AND_OLD_IMAGES",
+        },
+        "TimeToLiveSpecification": {
+          "AttributeName": "ttl",
+          "Enabled": true,
+        },
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SisiApi3319F256": {
+      "Properties": {
+        "Name": "SisiApi",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "SisiApiAccountDD0D4D12": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "SisiApi3319F256",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "SisiApiCloudWatchRole3B46039D",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SisiApiCloudWatchRole3B46039D": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "SisiApiDeployment2550FB0Dd58e994df26054688d938af04c7f7177": {
+      "DependsOn": [
+        "SisiApisubmitPOSTD052A651",
+        "SisiApisubmit464EE26A",
+      ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "SisiApi3319F256",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "SisiApiDeploymentStageprodB39ADFBE": {
+      "DependsOn": [
+        "SisiApiAccountDD0D4D12",
+      ],
+      "Properties": {
+        "DeploymentId": {
+          "Ref": "SisiApiDeployment2550FB0Dd58e994df26054688d938af04c7f7177",
+        },
+        "RestApiId": {
+          "Ref": "SisiApi3319F256",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "SisiApisubmit464EE26A": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "SisiApi3319F256",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "submit",
+        "RestApiId": {
+          "Ref": "SisiApi3319F256",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "SisiApisubmitPOSTApiPermissionMyTestStackSisiApi9AB9C7A8POSTsubmit2603659A": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddObjectLambdaFunction7327A1C7",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "SisiApi3319F256",
+              },
+              "/",
+              {
+                "Ref": "SisiApiDeploymentStageprodB39ADFBE",
+              },
+              "/POST/submit",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SisiApisubmitPOSTApiPermissionTestMyTestStackSisiApi9AB9C7A8POSTsubmit7122C428": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AddObjectLambdaFunction7327A1C7",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "SisiApi3319F256",
+              },
+              "/test-invoke-stage/POST/submit",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "SisiApisubmitPOSTD052A651": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "AddObjectLambdaFunction7327A1C7",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "SisiApisubmit464EE26A",
+        },
+        "RestApiId": {
+          "Ref": "SisiApi3319F256",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "SisiSubscriptionD6852A95": {
+      "Properties": {
+        "Endpoint": "ttodorov11@abv.bg",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "SisiTopic55F757BD",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "SisiTopic55F757BD": {
+      "Type": "AWS::SNS::Topic",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

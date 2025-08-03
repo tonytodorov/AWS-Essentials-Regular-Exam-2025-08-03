@@ -5,8 +5,8 @@ import {Template} from "aws-cdk-lib/assertions";
 test('Stack Synth Matches Snapshot', () => {
 
     const app = new App();
-    const stack = new AwsEssentialsRegularExam20250803Stack(app, 'SisiTestStack');
+    const stack = new AwsEssentialsRegularExam20250803Stack(app, 'MyTestStack');
     const template = Template.fromStack(stack);
 
-    expect(template.toJSON()).toMatchSnapshot();
+    expect(template).toMatchSnapshot();
 });

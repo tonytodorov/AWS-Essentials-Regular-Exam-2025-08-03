@@ -5,8 +5,8 @@ import {AttributeType, BillingMode, StreamViewType, Table} from 'aws-cdk-lib/aws
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import {Subscription, SubscriptionProtocol, Topic} from 'aws-cdk-lib/aws-sns';
 import {Construct} from 'constructs';
-import path from "node:path";
 import {Runtime } from "aws-cdk-lib/aws-lambda";
+import * as path from "node:path";
 
 export class AwsEssentialsRegularExam20250803Stack extends Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
